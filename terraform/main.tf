@@ -12,16 +12,13 @@ provider "aws" {
 }
 
 # PERBAIKAN 1: S3 Bucket aman
-resource "aws_s3_bucket" "data" {
-  bucket = "my-company-data-bucket-secure"
+resource "aws_s3_bucket" "public_bucket" {
+  bucket = "my-public-test-bucket"
 }
 
-resource "aws_s3_bucket_public_access_block" "data" {
-  bucket                  = aws_s3_bucket.data.id
-  block_public_acls       = true
-  block_public_policy     = true
-  ignore_public_acls      = true
-  restrict_public_buckets = true
+resource "aws_s3_bucket_acl" "public" {
+  bucket = aws_s3_bucket.public_bucket.id
+  acl    = "public-read"
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "data" {
